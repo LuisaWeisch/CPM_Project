@@ -82,5 +82,3 @@ filtered_res_signif <- as.data.frame(res[which(res$padj < 0.001 & abs(res$log2Fo
 # Save the results in a csv file
 write.csv(filtered_res, "data/filtered_deseq2_results.csv", row.names = TRUE)
 
-library(biomaRt)
-ensembl <- useEnsembl(biomart = "ensembl", dataset = "hsapiens_gene_ensembl")
