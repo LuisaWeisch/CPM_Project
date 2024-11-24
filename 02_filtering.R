@@ -31,6 +31,16 @@ rownames(cancer_data) <- gsub("\\.\\d+$", "", rownames(cancer_data))
 # Match TCGA & Deeploc data
 cancer_mb <- cancer_data[rownames(cancer_data) %in% membrane_data$To,]
 
+# Save subset_healthy in data
+output_folder <- "data"
+
+# Create data folder if it doesn't exist
+if (!dir.exists(output_folder)) {
+  dir.create(output_folder, recursive = TRUE)
+}
+
+write.table(cancer_mb, "data/cancer_data_subset.tsv", sep = "\t", quote = FALSE, col.names = NA)
+
 ####################
 #   HEALTHY DATA   #     
 ####################
