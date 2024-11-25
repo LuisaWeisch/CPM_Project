@@ -80,5 +80,5 @@ ggplot (data = res_df,
 filtered_res_signif <- as.data.frame(res[which(res$padj < 0.001 & abs(res$log2FoldChange) > 2), ])
 
 # Save the results in a csv file
-write.csv(filtered_res, "data/filtered_deseq2_results.csv", row.names = TRUE)
+write.csv(filtered_res_signif, "data/filtered_deseq2_results.csv", row.names = TRUE)
 
