@@ -19,8 +19,8 @@ if (!exists("membrane_data")) {
   membrane_data <- read.delim("_raw/Membrane_lars_ENSG.txt")
 }
 
-if (!exists("filterede_data")) {
-  filtered_data<-read_csv('filtered_deseq2_results.csv')
+if (!exists("filtered_data")) {
+  filtered_data<-read_csv('data/filtered_deseq2_results.csv')
 }
 
 
