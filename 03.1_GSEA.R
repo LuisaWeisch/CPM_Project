@@ -29,3 +29,7 @@ gsea_results <- gseGO(
     
 # Save results
 write.csv(as.data.frame(gsea_results), "data/gsea_results_from_res.csv", row.names = FALSE)
+
+# Print results
+gsea_results@result[["Description"]]
+gsea_results@result[["setSize"]]
