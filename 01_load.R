@@ -35,3 +35,5 @@ system2("gzip", args = c("-d", file_path))
 
 ### IMPORTANT !!
 # Upload the "cell_membrane_proteins_enst" and "Membrane_lars_ENSG" in the _raw folder manually
+
+# gtex_gene_expected_count: https://toil-xena-hub.s3.us-east-1.amazonaws.com/download/gtex_gene_expected_count.gz
