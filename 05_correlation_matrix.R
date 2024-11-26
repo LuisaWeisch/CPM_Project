@@ -46,6 +46,30 @@ cor_filtered_counts <- cor(filtered_counts, method = "pearson")
 melt_data<-melt(cor_filtered_counts)
 
 
+#remove correlation with self and NA:
+clean_matrix <- melt_data[complete.cases(melt_data), ]
+
+
+#Getting the top 0.7 genes:
+top_data <- clean_matrix[clean_matrix[, 3] > 0.70, ]
+top_data <- top_data[top_data[, 3] != 1, ]
+gene_list2 <- unique(top_data[, 1])
+
+#Filter DATA by second gene list with the highest correlation genes:
+
+filtered_TPM <- data[row.names(data) %in% gene_list2, ]
+
+# Transform to fit correllation:
+filtered_TPM <- t(filtered_TPM)
+
+# Getting correlation matrix:
+cor_filtered_tmp <- cor(filtered_TPM, method = "pearson")
+
+
+# Getting the data in the right format:
+melt_data<-melt(cor_filtered_tmp)
+
+
 # Creating a ggheatmap
 ggheatmap <- ggplot(melt_data, aes(Var2, Var1, fill = value))+
   geom_tile(color = "white")+
@@ -54,20 +78,20 @@ ggheatmap <- ggplot(melt_data, aes(Var2, Var1, fill = value))+
                        name="Pearson\nCorrelation") +
   theme_minimal()+ # minimal theme
   theme(axis.text.x = element_text(angle = 45, vjust = 1, 
-                                   size = 12, hjust = 1))+
+                                   size = 8, hjust = 1))+
   coord_fixed()
 
 # Print the heatmap
 print(ggheatmap)
 
-#remove correlation with self and NA:
-clean_matrix <- melt_data[complete.cases(melt_data), ]
-
 #Getting the top correlated gene_pairs:
-top_data <- clean_matrix[clean_matrix[, 3] > 0.90, ]
-top_corr_data <- top_data[top_data[, 3] != 1, ]
+top_corr_data <- clean_matrix[clean_matrix[, 3] > 0.90, ]
+top_corr_data <- top_corr_data[top_corr_data[, 3] != 1, ]
 top_corr_data <- top_corr_data[!duplicated(top_corr_data[, 3]), ]
 
 #Saving as a .csv
 write.csv(top_corr_data, "data/gene_matches.csv", row.names = FALSE)
+
+
+
 
