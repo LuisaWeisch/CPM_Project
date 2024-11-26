@@ -64,8 +64,10 @@ print(ggheatmap)
 clean_matrix <- melt_data[complete.cases(melt_data), ]
 
 #Getting the top correlated gene_pairs:
-top_corr_data <- melt_data[melt_data[, 3] > 0.95, ] |> melt_data[melt_data[, 3] != 1, ]
+top_data <- clean_matrix[clean_matrix[, 3] > 0.90, ]
+top_corr_data <- top_data[top_data[, 3] != 1, ]
+top_corr_data <- top_corr_data[!duplicated(top_corr_data[, 3]), ]
 
-
-
+#Saving as a .csv
+write.csv(top_corr_data, "data/gene_matches.csv", row.names = FALSE)
 
