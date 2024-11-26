@@ -77,7 +77,9 @@ ggheatmap <- ggplot(melt_data, aes(Var2, Var1, fill = value))+
                        midpoint = 0, limit = c(-1,1), space = "Lab", 
                        name="Pearson\nCorrelation") +
   theme_minimal()+ # minimal theme
-  theme(axis.text.x = element_text(angle = 45, vjust = 1, 
+  theme(axis.title.x = element_blank(),
+        axis.title.y = element_blank(),
+        axis.text.x = element_text(angle = 45, vjust = 1, 
                                    size = 8, hjust = 1))+
   coord_fixed()
 
