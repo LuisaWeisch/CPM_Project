@@ -33,3 +33,38 @@ write.csv(as.data.frame(gsea_results), "data/gsea_results_from_res.csv", row.nam
 # Print results
 gsea_results@result[["Description"]]
 gsea_results@result[["setSize"]]
+
+
+#### GSEA lab 03
+library(fgsea)
+library(msigdbr)
+
+rankings <- res$stat
+names(rankings) <- rownames(res)
+
+rankings <- rankings[!is.na(rankings)]
+
+
+gene_sets <- msigdbr(species = "Homo sapiens", category = "C5", subcategory = "BP")
+#gene_sets <- split(x = gene_sets$gene_symbol, f = gene_sets$gs_name)
+gene_sets <- split(x = gene_sets$ensembl_gene, f = gene_sets$gs_name)
+
+fgsea_res <- fgsea(pathways = gene_sets, 
+                   stats = rankings)
+
+head(fgsea_res)
+
+topPathways <- fgsea_res  |> 
+  dplyr::arrange(padj) |> 
+  dplyr::slice(1:10)
+
+
+ggplot(topPathways, 
+       mapping = aes(x = reorder(pathway, NES), 
+                     y = NES)) +
+  geom_col() +
+  coord_flip() +
+  labs(x = "Pathway", 
+       y = "Normalized Enrichment Score (NES)", 
+       title = "Top 10 Enriched Pathways") +
+  theme_minimal()
