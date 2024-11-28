@@ -21,6 +21,9 @@ cancer_counts <- cancer_mb[common_genes, ]
 # Combine the counts into a single matrix (only the common genes)
 counts_matrix <- cbind(healthy_counts, cancer_counts)
 
+#Untransform the log2(counts + 1)
+#counts_matrix [,] <- 2^counts_matrix[,]
+
 # Counts as integers because no decimal points are accepted
 counts_matrix <- round(counts_matrix)
 
@@ -80,5 +83,7 @@ ggplot (data = res_df,
 filtered_res_signif_genes <- as.data.frame(res[which(res$padj < 0.001 & abs(res$log2FoldChange) > 2), ])
 
 # Save the results in a csv file
+
 write.csv(filtered_res_signif_genes, "data/filtered_deseq2_results_genes.csv", row.names = TRUE)
+
 
