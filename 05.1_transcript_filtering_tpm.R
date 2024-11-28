@@ -5,7 +5,7 @@ library(readr)
 # Load data
 # Check if the variables already exists, otherwise read the file
 if (!exists("cancer_data")) {
-  cancer_data <- read.delim("_raw/pancan_transcript_counts", header = TRUE, sep = "\t", row.names = 1)
+  cancer_data <- read.delim("_raw/tcga_rsem_isoform_tpm", header = TRUE, sep = "\t", row.names = 1)
 }
 
 if (!exists("membrane_data")) {
@@ -13,7 +13,7 @@ if (!exists("membrane_data")) {
 }
 
 if (!exists("healthy_data")) {
-  healthy_data <- read.delim("_raw/healthy_transcript_counts", header = TRUE, sep = "\t", row.names = 1)
+  healthy_data <- read.delim("_raw/gtex_rsem_isoform_tpm", header = TRUE, sep = "\t", row.names = 1)
 }
 
 if (!exists("phenotype_data")) {
@@ -49,7 +49,10 @@ write.table(cancer_mb, "data/cancer_mb_transcripts.tsv", sep = "\t", quote = FAL
 ####################
 
 # Filter by Pancreas
-pancreas_data <- filter(phenotype_data, X_primary_site == "Pancreas") 
+pancreas_data <- phenotype_data |> 
+  filter(x_primary_site == "Pancreas")
+
+# pancreas_data <- filter(phenotype_data, X_primary_site == "Pancreas") 
                         
 # Get sample IDs from the filtered phenotype data
 pancreas_samples <- rownames(pancreas_data)
@@ -68,7 +71,7 @@ if (!dir.exists(output_folder)) {
   dir.create(output_folder, recursive = TRUE)
 }
 
-write.table(healthy_data_pancreas_mb, "data/healthy_transcripts.tsv", sep = "\t", quote = FALSE, col.names = NA)
+write.table(healthy_data_pancreas_mb, "data/healthy_transcripts_tpm.tsv", sep = "\t", quote = FALSE, col.names = NA)
 
 
 
