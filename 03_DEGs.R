@@ -80,8 +80,10 @@ ggplot (data = res_df,
   theme_minimal()
 
 # Filter the results by |logFC| and padj 
-filtered_res_signif <- as.data.frame(res[which(res$padj < 0.001 & abs(res$log2FoldChange) > 2), ])
+filtered_res_signif_genes <- as.data.frame(res[which(res$padj < 0.001 & abs(res$log2FoldChange) > 2), ])
 
 # Save the results in a csv file
-write.csv(filtered_res_signif, "data/filtered_DEGs_results.csv", row.names = TRUE)
+
+write.csv(filtered_res_signif_genes, "data/filtered_deseq2_results_genes.csv", row.names = TRUE)
+
 
