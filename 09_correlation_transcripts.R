@@ -109,6 +109,12 @@ if (!exists("healty_trans")) {
 
 rownames(healty_trans) <- gsub("\\.\\d+$", "", rownames(healty_trans))
 
+write.csv(gene_list2, "data/gene_list_trans.csv", row.names = FALSE)
+
+
+gene_list2 <- read.csv("data/gene_list_trans.csv")
+
+gene_list2 <- unique(gene_list2[, 1])
 
 filtered_healty_trans <- healty_trans[row.names(healty_trans) %in% gene_list2, ]
 
@@ -148,7 +154,7 @@ filtered_healty <- cor(filtered_healty, method = "pearson")
 melt_data_h<-melt(filtered_healty)
 
 
-ggheatmap <- ggplot(melt_data_h, aes(Var2, Var1, fill = value))+
+ggheatmap <- ggplot(clean_matrix_h, aes(Var2, Var1, fill = value))+
   geom_tile(color = "white")+
   scale_fill_gradient2(low = "blue", high = "red", mid = "white", 
                        midpoint = 0, limit = c(-1,1), space = "Lab", 
@@ -179,6 +185,7 @@ gene_list2_h <- unique(top_data_90_h[, 1])
 #Saving as a .csv
 write.csv(top_corr_data_h, "data/gene_matches_trans_h.csv", row.names = FALSE)
 write.csv(top_corr_data_90_h, "data/gene_matches_trans_90_h.csv", row.names = FALSE)
+write.csv(clean_matrix_h, "data/gene_matches_trans_h_all.csv", row.names = FALSE)
 
 write.csv(gene_list2, "data/gene_list_trans_90_h.csv", row.names = FALSE)
 
