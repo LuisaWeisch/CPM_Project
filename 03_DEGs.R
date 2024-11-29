@@ -53,12 +53,17 @@ dds <- DESeq(dds)
 res <- results(dds)
 
 # Check the distribution of padj to define a threshold  
-hist(res$padj, 
+filtered_padj <- res$padj[res$padj <= 0.05]
+
+hist(filtered_padj, 
      breaks = 50, 
      col = "skyblue", 
      main = "padj distribution", 
-     xlab = "padj",
-     ylab = "Frequency")
+     xlab = "padj", 
+     ylab = "Frequency", 
+     xlim = c(0, 0.05))
+
+abline(v = 0.001, col = "red", lwd = 2, lty = 2)
 
 res_df <- as_data_frame(res) |> 
   mutate(Significant = padj < 0.001 & abs(res$log2FoldChange) > 2)
@@ -73,7 +78,7 @@ ggplot (data = res_df,
              linetype = 'dashed') +
   geom_vline(xintercept = c(log2(0.25), log2(4)),
              linetype = 'dashed') +
-  scale_color_manual(values = c("pink", "skyblue")) +
+  scale_color_manual(values = c("grey", "firebrick")) +
   labs(x = "Log2 Fold Change", 
        y = "-Log10 Adjusted P-value", 
        title = "Volcano Plot") + 
